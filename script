@@ -1,0 +1,17 @@
+kubectl get nodes -o custom-columns=NAME:.metadata.name --no-headers | grep lkexxxxx-xxxx-  > nodes.txt
+node=$(cat nodes.txt)
+kubectl label node $node name=netaporter
+curl -H "Content-Type: application/json" -H "Authorization: Bearer xxxxxxxxxxxxxxxxxxxxxxxxxxx" -X POST https://api.linode.com/v4/lke/clusters/xxxx/pools/xxxxx/recycle
+kubectl get nodes -l name=netaporter | grep lke
+a=$(echo $?)
+while [ $a -eq 0 ]
+do
+    kubectl get nodes -l name=netaporter | grep lke
+    a=$(echo $?)
+done
+echo "running sleep command"
+sleep 200
+echo "sleep command ends"
+kubectl get nodes -o custom-columns=NAME:.metadata.name --no-headers | grep lkexxxxxx-xxxx-  > nodes1.txt
+node=$(cat nodes1.txt)
+kubectl taint node $node load=netaporter:NoSchedule
