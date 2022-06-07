@@ -1,0 +1,72 @@
+{
+    "spec": {
+        "affinity": {
+            "nodeAffinity": {
+                "requiredDuringSchedulingIgnoredDuringExecution": {
+                    "nodeSelectorTerms": [
+                        {
+                            "matchExpressions": [
+                                {
+                                    "key": "xxxx/pool-id",
+                                    "operator": "In",
+                                    "values": [
+                                        "xxxxx"
+                                    ]
+                                }
+                            ]
+                        }
+                    ]
+                }
+            }
+        },
+        "containers": [
+            {
+                "args": [
+                    "doppler",
+                    "run",
+                    "--no-dns-resolver",
+                    "--fallback=doppler.encrypted.json",
+                    "--",
+                    "scrapy",
+                    "crawl",
+                    "mrporter_ru_pv"
+                ],
+                "env": [
+                    {
+                        "name": "DOPPLER_TOKEN",
+                        "value": "xxxxxxxxxxxx"
+                    },
+                    {
+                        "name": "SCRAPY_ENV",
+                        "value": "production"
+                    }
+                ],
+                "image": "xxxxxxx",
+                "imagePullPolicy": "Always",
+                "name": "mrporter"
+            }
+        ],
+        "imagePullSecrets": [
+            {
+                "name": "xxxxxxx"
+            }
+        ],
+        "tolerations": [
+            {
+                "effect": "NoSchedule",
+                "key": "load",
+                "operator": "Equal",
+                "value": "netaporter"
+            }
+        ],
+    }
+}
+
+
+
+
+
+
+
+
+
